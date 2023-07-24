@@ -13,14 +13,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
-        http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
-        http.exceptionHandling(handler -> {
-            handler.authenticationEntryPoint((request, response, authException) -> {
-                System.out.println("Custom AuthenticationEntryPoint");
-            });
-        });
+        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
+        return http.build();
+    }
+
+    @Bean
+    SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
+        http.formLogin(Customizer.withDefaults());
         return http.build();
     }
 
