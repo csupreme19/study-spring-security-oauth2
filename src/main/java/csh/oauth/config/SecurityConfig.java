@@ -2,9 +2,9 @@ package csh.oauth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -13,14 +13,13 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.httpBasic(Customizer.withDefaults());
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
-        return http.build();
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
-        http.formLogin(Customizer.withDefaults());
+        http.headers(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.logout(AbstractHttpConfigurer::disable);
+        http.requestCache(AbstractHttpConfigurer::disable);
+        http.securityContext(AbstractHttpConfigurer::disable);
+        http.anonymous(AbstractHttpConfigurer::disable);
+        http.exceptionHandling(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
